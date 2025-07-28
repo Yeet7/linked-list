@@ -30,6 +30,10 @@ module LinkedList
       @head = Node.new(value, @head)
     end
 
+    def remove(node)
+      node.next_node = nil
+    end
+
     def size
       return 0 if @head.nil?
 
@@ -53,6 +57,7 @@ module LinkedList
       tail.value
     end
 
+    # Returns the value of the node at an index
     def at(index)
       return "Out of Bounds!" if index > size
 
@@ -63,6 +68,30 @@ module LinkedList
         count += 1
       end
       current_node.value
+    end
+
+    # Accesses the actual node instead of value at an index.
+    # Useful for setting next_node = nil so the item isn't accesed and not just blank.
+    def at_backend(index)
+      count = 0
+      current_node = @head
+      until count == index - 1
+        current_node = current_node.next_node unless current_node.next_node.nil?
+        count += 1
+      end
+      current_node
+    end
+
+    def pop
+      last_count = 0
+
+      last_node = @head
+      until last_node.next_node.nil?
+        last_node = last_node.next_node
+        last_count += 1
+      end
+
+      at_backend(last_count).next_node = nil
     end
 
     def to_a
