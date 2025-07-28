@@ -10,6 +10,8 @@ list.prepend("turtle")
 
 list.to_s
 
-list.pop
+puts list.contains?("cat")
+puts list.contains?("lion")
 
-list.to_s
+puts list.find("cat")
+puts list.find("lion")

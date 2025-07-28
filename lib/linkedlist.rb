@@ -94,6 +94,29 @@ module LinkedList
       at_backend(last_count).next_node = nil
     end
 
+    def contains?(value)
+      current_node = @head
+
+      until current_node.next_node.nil?
+        return true if current_node.value == value
+
+        current_node = current_node.next_node
+      end
+      false
+    end
+
+    def find(value)
+      index = 0
+      current_node = @head
+
+      until current_node.next_node.nil?
+        return "Found at index #{index}" if current_node.value == value
+
+        current_node = current_node.next_node
+      end
+      "'#{value}' not found in list."
+    end
+
     def to_a
       array = []
       current_node = @head
