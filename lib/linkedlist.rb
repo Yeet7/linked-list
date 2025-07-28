@@ -91,8 +91,8 @@ module LinkedList
       current_node.value
     end
 
-    # Accesses the actual node instead of value at an index.
-    # Useful for setting next_node = nil so the item isn't accesed and not just blank.
+    # Accesses the actual node instead of value at an index - 1.
+    # Useful for setting next_node = nil so the item isn't accessed and not just blank.
     def at_backend(index)
       count = 0
       current_node = @head
@@ -114,12 +114,12 @@ module LinkedList
         last_count += 1
       end
 
-      # removes @ positon and then takes the value. Implicit return,
+      # removes @ position and then takes the value. Implicit return,
       # puts pop if want value.
       remove(at_backend(last_count)).value
     end
 
-    # If the value is contained in the list, returns true, otherise, false.
+    # If the value is contained in the list, returns true, otherwise, false.
     def contains?(value)
       current_node = @head
 
@@ -142,6 +142,43 @@ module LinkedList
         current_node = current_node.next_node
       end
       "'#{value}' not found in list."
+    end
+
+    # Inserts a new node at a given index
+    def insert_at(value, index)
+      # Appends if index is larger than size
+      # Prepends if index is 0 or lower.
+      return append(value) if index >= size
+      return prepend(value) if index <= 0
+
+      # get to node at index, create a new node with (value, current_node)
+      # loop back to previous node with at_backend(index).next_node = value
+      count = 0
+      current_node = @head
+      until count == index
+        current_node = current_node.next_node unless current_node.next_node.nil?
+        count += 1
+      end
+
+      at_backend(count).next_node = Node.new(value, current_node)
+    end
+
+    # Removes a node at a given index
+    # Starts at 0
+    # if out of bounds, removes last value.
+    def remove_at(index)
+      return pop if index + 1 == size
+      return @head = @head.next_node if index.zero?
+
+      count = 0
+      current_node = @head
+      # Accesses the index back 2 to then access the node back one to set that node's next node.
+      until count == index
+        current_node = current_node.next_node unless current_node.next_node.nil?
+        count += 1
+      end
+
+      at_backend(count).next_node = current_node.next_node
     end
 
     # Converts the entire list into an array
