@@ -27,9 +27,42 @@ module LinkedList
     end
 
     def prepend(value)
-      new_node = Node.new(value, @head)
+      @head = Node.new(value, @head)
+    end
 
-      @head = new_node
+    def size
+      return 0 if @head.nil?
+
+      count = 1
+      current_node = @head
+      until current_node.next_node.nil?
+        count += 1
+        current_node = current_node.next_node
+      end
+
+      count
+    end
+
+    def head
+      @head.value
+    end
+
+    def tail
+      tail = @head
+      tail = tail.next_node until tail.next_node.nil?
+      tail.value
+    end
+
+    def at(index)
+      return "Out of Bounds!" if index > size
+
+      count = 0
+      current_node = @head
+      until count == index
+        current_node = current_node.next_node unless current_node.next_node.nil?
+        count += 1
+      end
+      current_node.value
     end
 
     def to_a
